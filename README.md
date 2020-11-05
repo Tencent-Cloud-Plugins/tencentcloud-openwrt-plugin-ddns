@@ -29,7 +29,7 @@
 
 登录openwrt路由器,进入系统→软件包页面，将下方软件包的地址放入从网络安装的输入框中，点击确认完成安装。
 ipk安装地址：http://openwrt-tencentddns-1301800460.cos.ap-guangzhou.myqcloud.com/luci-app-tencentddns_0.1.0-1_all.ipk
-![](./images/OpenWRT/ddns1.png)
+![](./images/ddns1.png)
 
 
 
@@ -53,7 +53,7 @@ ipk安装地址：http://openwrt-tencentddns-1301800460.cos.ap-guangzhou.myqclou
 
 ### 4.1.界面功能介绍
 
-![](./images/OpenWRT/ddns2.png)
+![](./images/ddns2.png)
 
 > 上图主要是配置DDNS插件的腾讯云参数，包括密钥ID、密钥Token、WAN-IP来源、主域名和子域名等
 
