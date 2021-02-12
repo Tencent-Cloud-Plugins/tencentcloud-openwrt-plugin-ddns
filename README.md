@@ -42,7 +42,7 @@ ipk安装地址：http://openwrt-tencentddns-1301800460.cos.ap-guangzhou.myqclou
    make && sudo make install
    popd
 4. 开始编译
-   make package/feeds/luci-app-aliddns/compile V=s
+   make package/feeds/tencentcloud_ddns/compile V=s
 5. 把生成的ipk包上传到路由器，用opkg安装
    opkg install luci-app-tencentddns_0.1.0-1_all.ipk
 
