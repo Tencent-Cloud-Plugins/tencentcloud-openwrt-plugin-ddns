@@ -46,6 +46,7 @@ resolve2ip() {
 }
 
 check_tencentddns() {
+	return 1
 	echo "$DATE WAN-IP: ${ip}"
 	if [ "Z$ip" == "Z" ]; then
 		echo "$DATE ERROR, cant get WAN-IP..."
@@ -91,15 +92,15 @@ get_recordid2() {
 }
 
 query_recordid() {
-        send_request "Record.List" "domain=$main_dm&sub_domain=$sub_dm&record_type=A"
+        send_request "Record.List" "domain=$main_dm&sub_domain=$sub_dm&record_type=AAAA"
 }
 
 update_record() {
-        send_request "Record.Modify" "domain=$main_dm&sub_domain=$sub_dm&record_id=$1&record_type=A&record_line=%e9%bb%98%e8%ae%a4&value=$ip"
+        send_request "Record.Modify" "domain=$main_dm&sub_domain=$sub_dm&record_id=$1&record_type=AAAA&record_line=%e9%bb%98%e8%ae%a4&value=$ip"
 }
 
 add_record() {
-        send_request "Record.Create" "domain=$main_dm&sub_domain=$sub_dm&record_type=A&record_line=%e9%bb%98%e8%ae%a4&value=$ip"
+        send_request "Record.Create" "domain=$main_dm&sub_domain=$sub_dm&record_type=AAAA&record_line=%e9%bb%98%e8%ae%a4&value=$ip"
 }
 
 del_record() {
@@ -154,9 +155,12 @@ sub_dm=$(uci_get_by_name  base sub_domain)
 
 iface=$(uci_get_by_name   base interface)
 if [ "Z$iface" == "Zinternet" -o "Z$iface" == "Z" ]; then
-	ip=$(intelnetip)
+	ip=$(ubus call network.interface.wan6 status | grep '"source"' | awk '{print $2}' | awk -F '/' '{print $1}
+' | awk -F '"' '{print $2}' | sed -n '3p' | sed 's/\\//')
 else
-	ip=$(ubus call network.interface.$iface status | grep '"address"' | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1)
+	#ip=$(ubus call network.interface.$iface status | grep '"address"' | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1)
+	ip=$(ubus call network.interface.wan6 status | grep '"source"' | awk '{print $2}' | awk -F '/' '{print $1}
+' | awk -F '"' '{print $2}' | sed -n '3p' | sed 's/\\//')
 fi
 
 DATE=$(date +'%Y-%m-%d %H:%M:%S')
